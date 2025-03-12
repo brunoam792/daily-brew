@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Daily Brew</string>
+    <string name="home" />
+    <string name="history" />
+    <string name="logs" />
+    <string name="limit" />
 </resources>
