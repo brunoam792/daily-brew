@@ -18,7 +18,8 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
         composable("splashScreen") { SplashScreen(navController) }
         composable("home") { HomeScreen() }
         composable("history") { HistoryScreen() }
-        composable("logs") { LogsScreen() }
+        composable("logs") { LogsScreen(navController) }
         composable("limit") { LimitScreen() }
+        composable("addDrink") { AddDrinkScreen(navController) }
     }
 }

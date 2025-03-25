@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".DailyBrewApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,24 +14,13 @@
         android:theme="@style/Theme.DailyBrew"
         tools:targetApi="31">
         <activity
-            android:name=".LimitActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LogsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.DailyBrew">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
