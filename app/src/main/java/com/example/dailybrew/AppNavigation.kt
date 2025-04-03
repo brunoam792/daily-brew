@@ -12,11 +12,11 @@ import androidx.navigation.compose.composable
 fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues) {
     NavHost(
         navController = navController,
-        startDestination = "splashScreen",
+        startDestination = "splashScreen", // Start at Splash Screen
         modifier = Modifier.padding(paddingValues)
     ) {
         composable("splashScreen") { SplashScreen(navController) }
-        composable("home") { HomeScreen() }
+        composable("home") { HomeScreen() } // Home Screen with menu bar
         composable("history") { HistoryScreen() }
         composable("logs") { LogsScreen(navController) }
         composable("limit") { LimitScreen() }

@@ -1,5 +1,6 @@
 package com.example.dailybrew
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -43,11 +45,19 @@ fun HomeScreen() {
     val caffeineStatus by homeViewModel.caffeineStatus.collectAsState()
 
     // UI implementation
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // Spacer to push the Box down
+        Spacer(modifier = Modifier.height(100.dp))
+
+        Box(
+            modifier = Modifier
+                .width(400.dp)
+                .height(500.dp)
+                .padding(16.dp)
+                .background(Color(0xFFF3E9DC)),
+            contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,6 +68,7 @@ fun HomeScreen() {
                 text = "Caffeine Consumption",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
+                color = Color(0xFF8A583F),
                 modifier = Modifier.padding(bottom = 32.dp)
             )
 
@@ -85,10 +96,12 @@ fun HomeScreen() {
                     Text(
                         text = "${caffeineStatus.currentAmount}",
                         style = MaterialTheme.typography.headlineLarge,
-                        fontWeight = FontWeight.Bold
-                    )
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF8A583F)
+                        )
                     Text(
                         text = "mg",
+                        color = Color(0xFF8A583F),
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
@@ -147,4 +160,5 @@ fun HomeScreen() {
             }
         }
     }
+}
 }

@@ -56,6 +56,7 @@ dependencies {
     // Room Database
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.storage)
     ksp(libs.androidx.room.compiler)
 
     // Lifecycle Components
@@ -84,4 +85,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.androidx.animation)
+    implementation("androidx.compose.animation:animation:1.5.4") // Verifique a versão mais recente
+    implementation ("androidx.compose.material:material-icons-extended")
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+
 }
