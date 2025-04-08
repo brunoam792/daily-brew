@@ -20,7 +20,8 @@ import java.time.format.DateTimeFormatter
 
 class LogsViewModel(
     private val intakeRepository: IntakeRepository,
-    private val drinkRepository: DrinkRepository
+    private val drinkRepository: DrinkRepository,
+    private val historyViewModel: HistoryViewModel? = null // Optional reference to HistoryViewModel
 ) : ViewModel() {
 
     // Current user ID (in a real app, this would come from authentication)
@@ -86,7 +87,7 @@ class LogsViewModel(
                         amount = intake.totalCaffeine,
                         formattedTime = timestamp.format(formatter)
                     )
-                }.sortedByDescending { it.formattedTime } // Sort by date, most recent first
+                }.sortedByDescending { it.id } // Sort by ID instead of formatted time for better chronological order
             }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
@@ -113,6 +114,9 @@ class LogsViewModel(
                         )
                         intakeRepository.insert(intake)
                         _operationMessage.value = "Caffeine intake recorded successfully!"
+
+                        // Refresh the history view if available
+                        historyViewModel?.refreshData()
                     }
                 }
             } catch (e: Exception) {
@@ -133,6 +137,9 @@ class LogsViewModel(
                     intakes.find { it.intakeId == intakeId }?.let { intake ->
                         intakeRepository.delete(intake)
                         _operationMessage.value = "Record deleted successfully!"
+
+                        // Refresh the history view if available
+                        historyViewModel?.refreshData()
                     }
                 }
             } catch (e: Exception) {
@@ -150,12 +157,13 @@ class LogsViewModel(
 
     class LogsViewModelFactory(
         private val intakeRepository: IntakeRepository,
-        private val drinkRepository: DrinkRepository
+        private val drinkRepository: DrinkRepository,
+        private val historyViewModel: HistoryViewModel? = null
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(LogsViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return LogsViewModel(intakeRepository, drinkRepository) as T
+                return LogsViewModel(intakeRepository, drinkRepository, historyViewModel) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

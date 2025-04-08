@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.storage)
+    implementation(libs.androidx.media3.common.ktx)
     ksp(libs.androidx.room.compiler)
 
     // Lifecycle Components

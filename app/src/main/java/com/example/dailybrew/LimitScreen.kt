@@ -7,10 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -25,12 +30,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.dailybrew.ui.theme.CoffeeBrown
+import com.example.dailybrew.ui.theme.CremeBg
 import com.example.dailybrew.viewmodels.LimitViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LimitScreen() {
     // Get the application context
@@ -64,55 +75,89 @@ fun LimitScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Logo
             Text(
-                text = "Set your daily caffeine limit",
-                style = MaterialTheme.typography.headlineSmall
+                text = "",
+                style = MaterialTheme.typography.headlineMedium,
+                color = CoffeeBrown,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 24.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Text field with explanation
-            OutlinedTextField(
-                value = inputLimit,
-                onValueChange = { limitViewModel.updateInputLimit(it) },
-                label = { Text("Limit (mg)") },
-                supportingText = { Text("The recommended daily limit is 400mg") },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Information about the current limit
-            currentLimit?.let {
-                Text(
-                    text = "Your current limit: $it mg",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Save button
-            Button(
-                onClick = { limitViewModel.saveLimit() },
-                modifier = Modifier.align(Alignment.End),
-                enabled = inputLimit.isNotEmpty() && inputLimit.toIntOrNull() != null && inputLimit.toIntOrNull() != currentLimit
+            // Main content card
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = CremeBg
+                ),
+                shape = RoundedCornerShape(16.dp)
             ) {
-                Icon(
-                    Icons.Default.Check,
-                    contentDescription = "Save",
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-                Text("Save")
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Set your daily caffeine limit",
+                        color = CoffeeBrown,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(bottom = 24.dp)
+                    )
+
+                    // Text field com label e hint - Corrigido para não usar outlinedTextFieldColors
+                    OutlinedTextField(
+                        value = inputLimit,
+                        onValueChange = { limitViewModel.updateInputLimit(it) },
+                        label = { Text("Limit (mg)", color = CoffeeBrown) },
+                        supportingText = { Text("The recommended daily limit is 400mg", color = CoffeeBrown) },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Information about the current limit
+                    currentLimit?.let {
+                        Text(
+                            text = "Your current limit: $it mg",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = CoffeeBrown
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    // Save button
+                    Button(
+                        onClick = { limitViewModel.saveLimit() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = CoffeeBrown,
+                            contentColor = CremeBg
+                        ),
+                        enabled = inputLimit.isNotEmpty() &&
+                                inputLimit.toIntOrNull() != null &&
+                                inputLimit.toIntOrNull() != currentLimit
+                    ) {
+                        Icon(
+                            Icons.Default.Check,
+                            contentDescription = "Save",
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                        Text("Save")
+                    }
+                }
             }
         }
 
-        // Snackbar host - agora posicionado no Box
+        // Snackbar host
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier
@@ -121,8 +166,8 @@ fun LimitScreen() {
         ) { data ->
             Snackbar(
                 modifier = Modifier.padding(16.dp),
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                containerColor = CoffeeBrown,
+                contentColor = CremeBg,
                 content = { Text(data.visuals.message) }
             )
         }

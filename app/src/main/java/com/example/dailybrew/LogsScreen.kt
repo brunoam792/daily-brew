@@ -1,5 +1,6 @@
 package com.example.dailybrew
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,11 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -28,8 +31,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -45,7 +48,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -53,8 +55,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.dailybrew.data.entities.Drink
+import com.example.dailybrew.ui.theme.CoffeeBrown
+import com.example.dailybrew.ui.theme.CremeBg
 import com.example.dailybrew.viewmodels.LogsViewModel
+import androidx.compose.ui.platform.LocalContext
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogsScreen(navController: NavHostController = rememberNavController()) {
     // Get the application context
@@ -90,27 +96,37 @@ fun LogsScreen(navController: NavHostController = rememberNavController()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Header with title and add drink button
-            Row(
+            // Logo
+            Text(
+                text = "",
+                style = MaterialTheme.typography.headlineMedium,
+                color = CoffeeBrown,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            // Title Card
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(bottom = 16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = CremeBg
+                ),
+                shape = RoundedCornerShape(16.dp)
             ) {
                 Text(
-                    text = "Caffeine Intake Logs",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
+                    text = "All your registers",
+                    textAlign = TextAlign.Center,
+                    color = CoffeeBrown,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
                 )
-
-                TextButton(
-                    onClick = { navController.navigate("addDrink") }
-                ) {
-                    Text("+ Drink")
-                }
             }
 
             // If no logs, show empty message
@@ -124,7 +140,7 @@ fun LogsScreen(navController: NavHostController = rememberNavController()) {
                     Text(
                         text = "No caffeine intake records yet.\nTap the + button to add one.",
                         textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = CoffeeBrown
                     )
                 }
             } else {
@@ -148,7 +164,9 @@ fun LogsScreen(navController: NavHostController = rememberNavController()) {
             onClick = { showAddDialog = true },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(16.dp)
+                .padding(16.dp),
+            containerColor = CoffeeBrown,
+            contentColor = CremeBg
         ) {
             Icon(
                 Icons.Default.Add,
@@ -182,8 +200,8 @@ fun LogsScreen(navController: NavHostController = rememberNavController()) {
     if (showDeleteConfirmation != null) {
         AlertDialog(
             onDismissRequest = { showDeleteConfirmation = null },
-            title = { Text("Delete Record") },
-            text = { Text("Are you sure you want to delete this intake record?") },
+            title = { Text("Delete Record", color = CoffeeBrown) },
+            text = { Text("Are you sure you want to delete this intake record?", color = CoffeeBrown) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -194,14 +212,15 @@ fun LogsScreen(navController: NavHostController = rememberNavController()) {
                         showDeleteConfirmation = null
                     }
                 ) {
-                    Text("Yes, Delete")
+                    Text("Yes, Delete", color = CoffeeBrown)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteConfirmation = null }) {
-                    Text("Cancel")
+                    Text("Cancel", color = CoffeeBrown)
                 }
-            }
+            },
+            containerColor = CremeBg
         )
     }
 }
@@ -214,7 +233,11 @@ fun LogEntryCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = CremeBg
+        ),
+        shape = RoundedCornerShape(8.dp)
     ) {
         Row(
             modifier = Modifier
@@ -227,22 +250,28 @@ fun LogEntryCard(
                 Text(
                     text = logEntry.drinkName,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = CoffeeBrown
                 )
                 Text(
                     text = "${logEntry.amount} mg of caffeine",
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = CoffeeBrown
                 )
                 Text(
                     text = logEntry.formattedTime,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = CoffeeBrown.copy(alpha = 0.7f)
                 )
             }
 
             // Delete button
             IconButton(onClick = onDeleteClick) {
-                Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error)
+                Icon(
+                    Icons.Default.Delete,
+                    contentDescription = "Delete",
+                    tint = CoffeeBrown
+                )
             }
         }
     }
@@ -269,20 +298,22 @@ fun AddIntakeDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Record Caffeine Intake") },
+        title = { Text("Record Caffeine Intake", color = CoffeeBrown) },
         text = {
             Column {
                 // Drink selection
                 Text(
                     text = "Select drink:",
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    color = CoffeeBrown
                 )
 
                 ExposedDropdownMenuBox(
                     expanded = expanded,
                     onExpandedChange = { expanded = it }
                 ) {
+                    // Corrigido para não usar textFieldColors
                     TextField(
                         value = selectedDrink?.name ?: "",
                         onValueChange = {},
@@ -290,20 +321,22 @@ fun AddIntakeDialog(
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .menuAnchor()
+                            .menuAnchor(),
                     )
 
                     ExposedDropdownMenu(
                         expanded = expanded,
-                        onDismissRequest = { expanded = false }
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.background(CremeBg)
                     ) {
                         availableDrinks.forEach { drink ->
                             DropdownMenuItem(
-                                text = { Text(drink.name) },
+                                text = { Text(drink.name, color = CoffeeBrown) },
                                 onClick = {
                                     selectedDrink = drink
                                     expanded = false
-                                }
+                                },
+                                modifier = Modifier.background(CremeBg)
                             )
                         }
                     }
@@ -315,17 +348,26 @@ fun AddIntakeDialog(
                 Text(
                     text = "Quantity (servings): ${String.format("%.1f", servings)}",
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    color = CoffeeBrown
                 )
 
                 Slider(
                     value = servings,
                     onValueChange = { servings = it },
                     valueRange = 0.5f..3f,
-                    steps = 5
+                    steps = 5,
+                    colors = SliderDefaults.colors(
+                        thumbColor = CoffeeBrown,
+                        activeTrackColor = CoffeeBrown,
+                        inactiveTrackColor = CoffeeBrown.copy(alpha = 0.3f)
+                    )
                 )
 
-                Divider(modifier = Modifier.padding(vertical = 16.dp))
+                Divider(
+                    modifier = Modifier.padding(vertical = 16.dp),
+                    color = CoffeeBrown.copy(alpha = 0.3f)
+                )
 
                 // Summary
                 selectedDrink?.let { drink ->
@@ -334,12 +376,13 @@ fun AddIntakeDialog(
                         text = "Total caffeine: $totalCaffeine mg",
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
+                        color = CoffeeBrown
                     )
 
                     Text(
                         text = "Volume: ${(drink.servingSize * servings).toInt()} ml",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = CoffeeBrown
                     )
                 }
             }
@@ -351,15 +394,20 @@ fun AddIntakeDialog(
                         onConfirm(drink.drinkId, servings)
                     }
                 },
-                enabled = selectedDrink != null
+                enabled = selectedDrink != null,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = CoffeeBrown,
+                    contentColor = CremeBg
+                )
             ) {
                 Text("Record")
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text("Cancel", color = CoffeeBrown)
             }
-        }
+        },
+        containerColor = CremeBg
     )
 }

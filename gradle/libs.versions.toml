@@ -20,6 +20,7 @@ lifecycleRuntimeCompose = "2.8.7"
 vico = "2.0.0"
 ksp = "2.0.0-1.0.22"
 storage = "1.5.0"
+media3CommonKtx = "1.6.0"
 
 [libraries]
 androidx-animation = { module = "androidx.compose.animation:animation" }
@@ -51,6 +52,7 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 androidx-storage = { group = "androidx.test.services", name = "storage", version.ref = "storage" }
+androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
