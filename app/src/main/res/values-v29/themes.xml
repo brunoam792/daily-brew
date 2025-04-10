@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Theme.DailyBrew" parent="android:Theme.Material.Light.NoActionBar">
         <!-- Status bar configuration -->
         <item name="android:statusBarColor">@color/coffee_brown</item>

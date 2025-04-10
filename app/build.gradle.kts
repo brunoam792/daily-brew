@@ -88,8 +88,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.androidx.animation)
-    implementation("androidx.compose.animation:animation:1.5.4") // Verifique a versão mais recente
+    implementation("androidx.compose.animation:animation:1.5.4")
     implementation ("androidx.compose.material:material-icons-extended")
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
 }

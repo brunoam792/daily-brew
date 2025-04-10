@@ -2,45 +2,49 @@ package com.example.dailybrew
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.dailybrew.ui.theme.CoffeeBrown
+import com.example.dailybrew.ui.theme.CremeBg
 import kotlinx.coroutines.delay
-import androidx.compose.ui.res.painterResource as painterResource1
 
 
 @Composable
 fun SplashScreen(navController: NavHostController) {
     LaunchedEffect(Unit) {
-        delay(3000) // Wait 3 seconds
+        delay(3000)
         navController.navigate("home") {
-            popUpTo("splashScreen") { inclusive = true } // Remove Splash from BackStack
+            popUpTo("splashScreen") { inclusive = true }
         }
     }
 
-    Box(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFEDDBC5)),
-        contentAlignment = Alignment.Center
+            .background(CremeBg)
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Image(
-                painter = painterResource1(id = R.drawable.splash_screen),  // Your image file
-                contentDescription = "Splash Screen Logo",
-                modifier = Modifier.fillMaxSize()// Adjust size as needed
-            )
-        }
+        val screenHeight = maxHeight
+        val screenWidth = maxWidth
+
+        Image(
+            painter = painterResource(id = R.drawable.splash_screen),
+            contentDescription = "Splash Screen",
+            modifier = Modifier
+                .size(width = screenWidth, height = screenHeight)
+                .align(Alignment.Center),
+            contentScale = ContentScale.Crop
+        )
     }
 }
